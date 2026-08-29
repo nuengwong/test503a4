@@ -1,7 +1,7 @@
 {
 	"info": {
-		"_postman_id": "dc2591f8-0995-4dcc-a9cc-7ae68929dd7f",
-		"name": "VacQ_assignment4",
+		"_postman_id": "458db956-477b-4a14-8500-da88d326083a",
+		"name": "VacQ_assignment5",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "15205475"
 	},
@@ -48,11 +48,14 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Status code is 200\", function () {\r",
-							"    pm.response.to.have.status(200);\r",
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
 							"});\r",
 							"\r",
-							""
+							"const response = pm.response.json();\r",
+							"console.log(response.data._id);\r",
+							"\r",
+							"pm.globals.set(\"global_hospital_id\",response.data._id);"
 						],
 						"type": "text/javascript"
 					}
@@ -60,7 +63,18 @@
 			],
 			"request": {
 				"method": "POST",
-				"header": [],
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": "JSON Type",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\":\"{{$randomFullName}}\",\r\n    \"address\":\"Changwattana Pakkret\",\r\n    \"district\":\"Pakkret\",\r\n    \"province\":\"Nonthaburi\",\r\n    \"postalcode\":\"10110\",\r\n    \"tel\":\"02-8369999\",\r\n    \"region\":\"กรุงเทพมหานคร (Bangkok)\"\r\n}"
+				},
 				"url": {
 					"raw": "http://localhost:5000/api/v1/hospitals/",
 					"protocol": "http",
@@ -97,7 +111,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:5000/api/v1/hospitals/1",
+					"raw": "http://localhost:5000/api/v1/hospitals/:h_id",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -107,7 +121,13 @@
 						"api",
 						"v1",
 						"hospitals",
-						"1"
+						":h_id"
+					],
+					"variable": [
+						{
+							"key": "h_id",
+							"value": "{{global_hospital_id}}"
+						}
 					]
 				}
 			},
@@ -129,10 +149,21 @@
 				}
 			],
 			"request": {
-				"method": "GET",
-				"header": [],
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": "JSON Type",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\":\"{{$randomFullName}}\"\r\n}"
+				},
 				"url": {
-					"raw": "http://localhost:5000/api/v1/hospitals/1",
+					"raw": "http://localhost:5000/api/v1/hospitals/:h_id",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -142,7 +173,13 @@
 						"api",
 						"v1",
 						"hospitals",
-						"1"
+						":h_id"
+					],
+					"variable": [
+						{
+							"key": "h_id",
+							"value": "{{global_hospital_id}}"
+						}
 					]
 				}
 			},
@@ -164,10 +201,10 @@
 				}
 			],
 			"request": {
-				"method": "GET",
+				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:5000/api/v1/hospitals/1",
+					"raw": "http://localhost:5000/api/v1/hospitals/:h_id",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -177,7 +214,13 @@
 						"api",
 						"v1",
 						"hospitals",
-						"1"
+						":h_id"
+					],
+					"variable": [
+						{
+							"key": "h_id",
+							"value": "{{global_hospital_id}}"
+						}
 					]
 				}
 			},
